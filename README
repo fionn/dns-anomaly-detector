@@ -1,0 +1,9 @@
+Tool to detect DNS anomalies.
+
+Usage:
+
+    ./digger.sh example.com resolvers.json
+
+where resolvers.json is of the form supplied by public-dns.info (array of objects containing at least ip, as_number and as_org).
+
+It assumes that google.com is resolvable and that 1.1.1.1 is a reliable resolver.
