@@ -1,0 +1,27 @@
+name: CI
+
+on: push
+
+jobs:
+  test:
+    name: Lint and Run
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: sudo apt-get -y install curl dnsutils jq shellcheck
+
+    - name: Lint
+      run: shellcheck digger.sh
+
+    - name: Get HK resolvers
+      run: curl -O https://public-dns.info/nameserver/hk.json
+
+    - name: Run
+      env:
+        DOMAIN: ${{ secrets.domain }}
+      run: ./digger.sh "$DOMAIN" hk.json || echo $?
