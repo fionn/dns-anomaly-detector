@@ -19,7 +19,7 @@ jobs:
       run: shellcheck digger.sh
 
     - name: Get HK resolvers
-      run: curl -O https://public-dns.info/nameserver/hk.json
+      run: curl -fO https://public-dns.info/nameserver/hk.json
 
     - name: Run
       env:
