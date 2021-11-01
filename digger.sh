@@ -9,12 +9,12 @@ function log {
 function anomaly_detection {
     local -r domain=$1
     local -r resolver=$2
-    local -r reference=google.com
+    local -r reference=$3
 
     local reference_result
     local test_result
 
-    reference_result="$(query $reference "$resolver")"
+    reference_result="$(query "$reference" "$resolver")"
     if [[ -z "$reference_result" ]]; then
         log "Not an open resolver, skipping"
     else
@@ -58,7 +58,7 @@ function main {
         as_org="$(jq -r .as_org <<< "$resolver")"
 
         echo "Checking AS$as_number $as_org"
-        if [[ -n "$(anomaly_detection "$domain" "$resolver_ip")" ]]; then
+        if [[ -n "$(anomaly_detection "$domain" "$resolver_ip" "$reference")" ]]; then
             echo -e "\e[31mBad result from AS$as_number $as_org ($resolver_ip)\e[39m"
             ((count++)) || true
         fi
